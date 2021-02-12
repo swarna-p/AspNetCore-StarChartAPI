@@ -19,16 +19,18 @@ namespace StarChart.Controllers
             _context = context;
        }
 
-       [HttpGet("GetById/{id:int}")]
+       [HttpGet("{id:int}")]
        public IActionResult GetById(int id)
        {
            var celestialObject = _context.CelestialObjects.FirstOrDefault(o => o.Id == id);
            if(celestialObject !=null)
            {
                 return Ok(celestialObject);
+           }else
+           {
+                return NotFound();
            }
-           return NotFound($"The id: {id} cannot be found in the database");
-       }
+        }
 
        [HttpGet("{name}")]
        public IActionResult GetByName(string name)
@@ -37,9 +39,12 @@ namespace StarChart.Controllers
            if (celestialObject != null)
            {
                return Ok(celestialObject);
+           }else
+           {
+               return NotFound();
            }
-           return NotFound($"The object {name} cannot be found in the database");
-       }
+        }
+
        [HttpGet()]
        public IActionResult GetAll()
        {
